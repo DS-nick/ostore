@@ -245,7 +245,7 @@ export default {
 
         
        
-    // console.log('/////',this.cardNumber.match(/\d/g))
+    
 
     if(this.cardNumber.match(/\d/g) !==null) {
         
@@ -253,9 +253,9 @@ export default {
        
     }
 
-    // if(this.cardNumber.match(/\d/g).length) {
-    //     this.cardNumber = this.cardNumber.match(/\d/g).join('')
-    // }
+    
+
+    
     
 
     
@@ -268,29 +268,31 @@ export default {
                 case '4':
                     console.log('тут')
                     this.cardTypeUrl = '../src/assets/Visa_Inc._logo.svg.png'
+                    break;
                 case '5':
+                    console.log('yrтут')
                    this.cardTypeUrl = '../src/assets/MasterCard_Logo.svg.png'
-                   
+                   break;
             }
 
-            if(this.cardNumber.substring(1, 6) === '00303') {
-                
-                    console.log('kazkom')
-                    console.log(this.cardNumber.substring(1, 6))
+            switch(this.cardNumber.substring(0, 6)) {
+
+                case '400303':
                     this.cardNameUrl = '../src/assets/Qazkom_Logo.svg'
                     this.cardBackground.background = '#6A5ACD'
-            }else if(this.cardNumber.substring(1, 6) === '16949') {
-                    console.log('kaspi')
+                    break;
+                case '516949':
                     this.cardNameUrl = '../src/assets/kaspi-bank.svg'
-                   this.cardBackground.background = '#734a12' 
-            }else if(this.cardNumber.substring(1, 6) === '12095') {
-                this.cardNameUrl = '../src/assets/ATFBank.png'
-                this.cardBackground.background = '#B0C4DE'
-                this.atfDisplay.display = 'block'
-            }
-                    
+                    this.cardBackground.background = '#734a12' 
+                    break;
+                case '512095':
 
-            
+                        this.cardNameUrl = '../src/assets/ATFBank.png'
+                        this.cardBackground.background = '#B0C4DE'
+                        this.atfDisplay.display = 'block'
+                        break;
+            }
+
                  
             }else if(this.cardNumber.length < 6) {
                 console.log('card number меньше 5')
