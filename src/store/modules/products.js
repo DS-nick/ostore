@@ -1,3 +1,4 @@
+import Vue from 'vue'
 export default {
     state: {
         products: [
@@ -24,7 +25,18 @@ export default {
         ]
     },
     mutations: {},
-    actions: {},
+    actions: {
+       async addProduct({commit, getters}, payload) {
+
+            
+          const productRes = await  Vue.http.post(`https://fir-tut-d15e8.firebaseio.com/products.json`, {
+                ...payload,
+                uid: getters.getUser.userId
+
+            })
+            console.log(productRes)
+        }
+    },
     getters: {
         products(state) {
             return state.products

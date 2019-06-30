@@ -15,29 +15,46 @@
         <h2 class="add-product">Добавление товара</h2>
         <div class="add-product__button"
         
-        ><i class="fas fa-arrow-circle-down"
-        @click="toggleButton"></i></div>
+        >
+      
+        <i class="fas fa-arrow-circle-down"
+        @click="toggleButton"
+        :style="rotateObj"
+        ></i>
+       
+        </div>
         <div 
         v-if="state"
         >
         <div class="wrap">
         <span>Название бренда</span>
-        <input type="text">
+        <input type="text"
+        v-model = "formData.brand"
+        >
         </div>
         
         <div class="wrap">
         <span>Название товара</span>
-        <input type="text">
+        <input type="text"
+        v-model = "formData.name"
+        >
         </div>
         <div class="wrap">
         <span>Стоимость товара</span>
-        <input type="text">
+        <input type="text"
+        v-model = "formData.price"
+        >
         </div>
-        <input type="file">
+        <input type="file" accept="image/*"
+        @change="loadImage"
+        >
         <button
-        @click="but">Добавить товар</button>
+        @click="addProduct"
+        >Добавить товар</button>
         </div>
-        
+        <div style="width: 200px; heigth: 200px;">
+            <img :src="this.imageSrc" alt="">
+        </div>
        </div>
 </template>
 
@@ -45,7 +62,20 @@
 export default {
     data() {
         return {
-            state: false
+
+            formData: {
+                brand: '',
+                name: '',
+                price: '',
+                imageSrc: 'https://huckberry.imgix.net/spree/products/405266/original/0Qx8AqQeTk_taylor-stitch_ss_jack_0_original.jpg?auto=compress%2Cformat&dpr=1&cs=tinysrgb&crop=top&fit=clip&w=300&h=300'
+
+            },
+            state: false,
+            imageSrc: '',
+            rotateObj: {
+                transform: ''
+            }
+            
         }
     },
     props: [
@@ -63,9 +93,30 @@ export default {
         toggleButton() {
             console.log(this.state)
             this.state = !this.state
+            if(this.state) {
+                this.rotateObj.transform = 'rotate(180deg)'
+                
+            }else {
+                this.rotateObj.transform = ''
+            }
+            
         },
-        but() {
-            console.log('work')
+        loadImage(e) {
+            
+            const file = e.target.files[0]
+            const reader= new FileReader()
+
+            reader.onload = f => {
+                this.imageSrc = reader.result
+                
+            }
+
+            reader.readAsDataURL(file)
+
+            
+        },
+        addProduct() {
+            this.$store.dispatch('addProduct', this.formData)
         }
     },
     created() {
@@ -132,6 +183,42 @@ td, tr {
     font-size: 22px;
     margin-top: 30px;
     outline: none;
+}
+
+.animate {
+animation-name: rotateArrow;
+animation-duration: 2s;
+transform: rotate(180deg)
+}
+
+.animate-out {
+    animation-name: rotateArrowOut;
+    animation-duration: 2s;
+   
+}
+
+@keyframes rotateArrow {
+
+    0% {
+        transform: rotate(0deg)
+    }
+
+    100% {
+        transform: rotate(180deg)
+    }
+    
+}
+
+@keyframes rotateArrowOut {
+
+    0% {
+        transform: rotate(180deg)
+    }
+
+    100% {
+        transform: rotate(0deg)
+    }
+    
 }
 </style>
 

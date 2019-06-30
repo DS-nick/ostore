@@ -3,9 +3,7 @@ const FbAuth = 'https://www.googleapis.com/identitytoolkit/v3/'
 const FbApiKey = 'AIzaSyBeQZEGCMQdWVuCD0XibiaMT1IyxP2SV9g'
 
 import router from '../../router'
-import { rejects } from 'assert';
-// import fb from 'firebase'
-var dbAcsessData = {}
+
 export default {
 
 
@@ -131,7 +129,7 @@ export default {
                 console.log('dbData', dbData)
                 localStorage.setItem('token', authData.idToken)
                 localStorage.setItem('refresh', authData.refreshToken)
-                
+                commit('setLoading', false)
                 
                 
                 router.push('/')
@@ -139,7 +137,7 @@ export default {
             }catch(error) {
                
                 console.log(error)
-                throw error
+                
                 if(error.status === 400 ) {
                     commit('setLoading', false)
                     commit('setError', error.body.error.message)
@@ -246,6 +244,8 @@ export default {
                 // commit('adduser', response.body)
                 localStorage.setItem('token', response.body.idToken)
                 localStorage.setItem('refresh', response.body.refreshToken)
+
+                commit('serLoading', false)
                 
                router.push(`user/`)
                 
@@ -313,6 +313,7 @@ export default {
                
                 
             }
+            commit('setLoading', false)
         },
         
 
